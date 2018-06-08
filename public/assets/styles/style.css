@@ -1,74 +1,105 @@
-/* Widget */
-
-.wcm-infographic .wcm-infographic__day {
-    border: 1px solid lightgray;
-    border-width: 1px 1px 1px 0;
-    overflow: hidden;
-    position: relative;
-    box-sizing: border-box;
-    padding: 0;
+.wcm-infographic {
+	display: flex;
+	padding: 24px;
+	align-items: center;
+	flex-flow: column nowrap;
+	background-image: linear-gradient(rgba(0, 100, 180, 0.9), rgba(0, 100, 180, 0.9)), url("../images/map-bg.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	color:white;
 }
-
-.wcm-infographic .wcm-infographic__day:not(:first-child) {
-    border-top: none;
-}
-
-.wcm-infographic .wcm-infographic__day header {
-    padding: 0.1rem 0.5rem;
-    border-left: 3px solid #0B569B;
-    border-bottom: 1px solid lightgray;
-}
-
-.wcm-infographic .wcm-infographic__day__table {
-    padding: 2rem 1.5rem;
-    border-left: 3px solid #0B569B22;
-}
-
-.wcm-infographic .wcm-infographic__day__table table {
+.wcm-infographic__items {
+    display: flex;
     width: 100%;
-    border: 1px solid lightgray;
-    border-collapse: collapse;
+    padding: 24px 0;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+.wcm-infographic__item {
+    display: flex;
+    width: 200px;
+    padding: 24px;
+    flex-flow: column nowrap;
+    align-items: center;
+    position: relative;
+}
+.wcm-infographic__icon-container {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    border: 2px solid white;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+.wcm-infographic__text{
+    margin-top: 24px;
+    min-width: 100px;
+    text-align:center;
+}
+.wcm-infographic__button {
+    cursor: pointer;
+    display: block;
+    font-size: rem(13px);
+    font-weight: bold;
+    line-height: 32px;
+    margin: 0;
+    min-height: 32px;
+    padding: 0 24px;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 250ms;
+    transition-property: color, background, box-shadow;
+    transition-timing-function: ease-in-out;
+    user-select: none;
+    width: 100%;
+    margin-bottom: 24px;
+    background: none;
+    border: 2px solid white;
+    color: white;
+}
+.wcm-temp-remove-button,
+.wcm-temp-add-button {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    background: none;
+    border: none;
+}
+.wcm-temp-add-button {
+    font-size: 4rem;
+}
+.wcm-temp-add-button::after {
+    display: block;
+    content: "\f067";
+    color: rgba(0, 100, 180, 0.9);
+    width: 104px;
+    height: 104px;
+    border-radius: 104px;
+    line-height: 104px;
+    background: white;
+    cursor: pointer;
+}
+.wcm-temp-add-button:hover::after{
+    background: rgba(255, 255, 255, 0.9);
+}
+.wcm-temp-remove-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    font-size: 2rem;
+    color: red;
+}
+.wcm-temp-remove-button::after {
+    content: "\f00d";
+    cursor: pointer;
+}
+.wcm-temp-remove-button:hover {
+    color: #cc0202;
 }
 
-.wcm-infographic .wcm-infographic__day__table table thead tr {
-    background: #f5f5f5;
-}
-
-.wcm-infographic .wcm-infographic__day__table table thead tr {
-    background: #f5f5f5;
-}
-
-.wcm-infographic .wcm-infographic__day__table table th,
-.wcm-infographic .wcm-infographic__day__table table td {
-    padding: 0.7rem 0.5rem;
-    text-align: left;
-}
-
-.wcm-infographic .wcm-infographic__day__table table tr:nth-of-type(2n) {
-    background: #f5f5f5;
-}
-
-/* Modal */
-
-.wcm-infographic-modal {
-    min-width: 80vw;
-    margin-bottom: 2rem;
-}
-
-.wcm-infographic-modal__day {
-    padding: 1rem 1rem 0.5rem;
-}
-
-.wcm-infographic-modal__day:not(:first-child) {
-    margin-top: 1rem;
-}
-
-.wcm-infographic-modal__day:nth-of-type(2n) {
-    background: #f5f5f5;
-}
-
-.wcm-infographic-modal__day__time:not(:first-child) {
-    margin-top: 1rem;
-    border-top: 1px solid lightgray;
-    padding-top: 1rem;
-}
