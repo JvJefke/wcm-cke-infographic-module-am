@@ -72,6 +72,10 @@
 }
 .wcm-temp-add-button {
     font-size: 4rem;
+    margin: 2rem;
+    width: 200px;
+    height: 104px;
+    position: relative;
 }
 .wcm-temp-add-button::after {
     display: block;
@@ -83,6 +87,11 @@
     line-height: 104px;
     background: white;
     cursor: pointer;
+    margin: auto;
+    top: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .wcm-temp-add-button:hover::after{
     background: rgba(255, 255, 255, 0.9);
@@ -101,5 +110,13 @@
 }
 .wcm-temp-remove-button:hover {
     color: #cc0202;
+}
+.wcm-infographic__action {
+    background: none;
+    color: white;
+    border-radius: 0;
+    padding: 1rem;
+    border: 3px solid white;
+    margin-top: 3rem;
 }
 
