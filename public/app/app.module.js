@@ -1,17 +1,17 @@
 (function(angular) {
-	angular.module("cke-infographic-am_0.0.2.factories", []);
-	angular.module("cke-infographic-am_0.0.2.services", ["cke-infographic-am_0.0.2.factories"]);
-	angular.module("cke-infographic-am_0.0.2.controllers", ["cke-infographic-am_0.0.2.services"]);
-	angular.module("cke-infographic-am_0.0.2.directives", ["cke-infographic-am_0.0.2.controllers"]);
+	angular.module("cke-infographic-am_0.0.3.factories", []);
+	angular.module("cke-infographic-am_0.0.3.services", ["cke-infographic-am_0.0.3.factories"]);
+	angular.module("cke-infographic-am_0.0.3.controllers", ["cke-infographic-am_0.0.3.services"]);
+	angular.module("cke-infographic-am_0.0.3.directives", ["cke-infographic-am_0.0.3.controllers"]);
 
-	angular.module("cke-infographic-am_0.0.2", [
+	angular.module("cke-infographic-am_0.0.3", [
 
 		"pelorus.services",
 
-		"cke-infographic-am_0.0.2.factories",
-		"cke-infographic-am_0.0.2.services",
-		"cke-infographic-am_0.0.2.controllers",
-		"cke-infographic-am_0.0.2.directives",
+		"cke-infographic-am_0.0.3.factories",
+		"cke-infographic-am_0.0.3.services",
+		"cke-infographic-am_0.0.3.controllers",
+		"cke-infographic-am_0.0.3.directives",
 
 	])
 	.run([function() {
