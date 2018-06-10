@@ -1,5 +1,5 @@
 (function(angular) {
-	angular.module("cke-infographic-am_0.0.2")
+	angular.module("cke-infographic-am_0.0.3")
 		.provider("CKEditorInfographicAMConfig", [
 
 			"MODULE_ENV_CONFIG",
@@ -8,7 +8,7 @@
 
 				this.API = {
 					name: MODULE_ENV_CONFIG.angularModule,
-					version: "0.0.2",
+					version: "0.0.3",
 					feDirPath: MODULE_ENV_CONFIG.feDirPath,
 					assetsDirPath: MODULE_ENV_CONFIG.assetsDirPath,
 					cssDirPath: MODULE_ENV_CONFIG.cssDirPath,

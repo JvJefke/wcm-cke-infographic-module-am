@@ -1,5 +1,5 @@
 (function(angular) {
-	angular.module("cke-infographic-am_0.0.2.services")
+	angular.module("cke-infographic-am_0.0.3.services")
 		.service("ckeditorPluginDefinitionsInfographicAM", [
 			"ckeditorInfographicAMPlugin",
 

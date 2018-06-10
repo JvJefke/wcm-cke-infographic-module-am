@@ -1,5 +1,5 @@
 (function(angular, CKEDITOR) {
-	angular.module("cke-infographic-am_0.0.2.factories")
+	angular.module("cke-infographic-am_0.0.3.factories")
 		.factory("ckeditorInfographicAMPlugin", [
 			"$filter",
 			"CKEditorInfographicAMConfig",
