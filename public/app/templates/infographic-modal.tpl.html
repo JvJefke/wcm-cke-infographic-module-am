@@ -1,0 +1,32 @@
+<div class="wcm-infographic-modal">
+	<div class="wcm-infographic-modal__header">
+		<h2 class="h3-structure">Infographic configuration</h1>
+	</div>
+
+	<div class="wcm-infographic-modal__link">
+		<field type="'url'" name="'link'" model="ngDialogData.link" fieldData="resourceForms.itemForm" required="true" label="'URL' | translate">
+		</field>
+	</div>
+
+	<table class="wcm-infographic-modal__features">
+		<tr class="wcm-infographic-modal__feature u-clear" ng-repeat="feature in ngDialogData.items track by $index">
+			<td class="u-width-1-6">{{$index + 1}}</td>
+			<td class="u-width-4-6">
+				<field type="'textarea'" name="'description_' + $index" model="feature.content" fieldData="resourceForms.itemForm" required="true"
+				 label="'Description' | translate">
+				</field>
+			</td>
+			<td class="u-width-1-6">
+				<button class="c-button c-button--remove c-button--sm" ng-click="removeFeature($index)">Remove</button>
+			</td>
+		</tr>
+	</table>
+	<div class="c-buttonGroup u-clear u-margin-bottom">
+		<button ng-click="addFeature()" class="c-button c-button--alpha c-button--sm c-button--floatRight" translate>Add item</button>
+	</div>
+</div>
+
+<div class="c-buttonGroup">
+	<button ng-click="closeThisDialog()" class="c-button c-button--alpha c-button--sm c-button--floatLeft" translate>cancel</button>
+	<button ng-click="confirm()" class="c-button c-button--error c-button--sm c-button--floatRight" translate>confirm</button>
+</div>

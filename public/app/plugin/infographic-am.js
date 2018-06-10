@@ -3,10 +3,12 @@
 		.factory("ckeditorInfographicAMPlugin", [
 			"$filter",
 			"CKEditorInfographicAMConfig",
+			"DialogService",
 
 			function ckeditorInfographicAMPlugin(
 				$filter,
-				CKEditorInfographicAMConfig
+				CKEditorInfographicAMConfig,
+				DialogService
 			) {
 				var allowedContent = "div section article p a div span;" +
 					"div(!wcm-quote,!wcm-infographic__icon-container);" +
@@ -16,83 +18,55 @@
 					"a[href](!wcm-infographic__action);" +
 					"div(!wcm-infographic__action__content);" +
 					"span;";
-				var editables = {
-					content: {
-						selector: ".wcm-infographic__text--1",
-						allowedContent: "br strong em",
-					},
-					action: {
-						selector: ".wcm-infographic__action__content",
-						allowedContent: "br strong em",
-					},
-				};
-				var itemTemplateContent = "<div class=\"wcm-infographic__icon-container wcm-infographic__icon-container--1\"><span>1</span></div>" +
-					"<p class=\"wcm-infographic__text wcm-infographic__text--1\"></p>";
+				var itemTemplateContent = "<div class=\"wcm-infographic__icon-container\"><span>1</span></div>" +
+					"<p class=\"wcm-infographic__text\"></p>";
 
-				var addButtonToElement = function addButtonToElement(el, className, beforeClass, cb) {
-					console.log("adding button to element");
-					if (!el || el.findOne("." + className)) {
+				var setDataFromElement = function setDataFromElement(widget) {
+					var infographicItems = widget.element.find(".wcm-infographic__item");
+					var linkItem = widget.element.findOne(".wcm-infographic__action");
+
+					var itemsData = _.reduce(infographicItems.toArray(), function(acc, el) {
+						var contentEl = el.findOne(".wcm-infographic__text");
+
+						if (!contentEl) {
+							return acc;
+						}
+
+						acc.push({ content: contentEl.getHtml() });
+
+						return acc;
+					}, []);
+
+					widget.setData("items", itemsData);
+					if (!linkItem) {
 						return;
 					}
-
-					var button = new CKEDITOR.dom.element("button");
-
-					button.addClass(className);
-					button.on("click", cb);
-					button.setState(CKEDITOR.TRISTATE_DISABLED);
-
-					var beforeEl = el.findOne("." + beforeClass);
-
-					if (beforeClass && beforeEl) {
-						return button.insertBefore(beforeEl);
-					}
-
-					el.append(button);
-				};
-
-				var generateEditables = function generateEditables(widget) {
-					widget.initEditable("action", editables.action);
-
-					_.forEach(widget.element.find(".wcm-infographic__item").toArray(), function(el, index) {
-						var newPosition = index + 1;
-
-						addButtonToElement(el, "wcm-temp-remove-button", null, function() {
-							removeItem(widget, el);
-						});
-
-						el.$.className = "wcm-infographic__item wcm-infographic__item--" + newPosition;
-						el.findOne(".wcm-infographic__icon-container>span").setHtml(newPosition);
-						el.findOne(".wcm-infographic__text").$.className = "wcm-infographic__text wcm-infographic__text--" + newPosition;
-
-						widget.initEditable("content-" + newPosition, Object.assign({}, editables.content, {
-							selector: editables.content.selector.replace(/1/g, newPosition),
-						}));
+					widget.setData("link", {
+						url: linkItem.getAttribute("href"),
+						description: linkItem.getHtml(),
 					});
 				};
 
-				var addItem = function addItem(widget) {
+				var setElementFromData = function setElementFromData(widget) {
+					var itemsData = widget.data.items;
+					var linkData = widget.data.link;
 					var itemsEl = widget.element.findOne(".wcm-infographic__items");
-					var addNewButton = itemsEl.findOne(".wcm-temp-add-button");
+					var linkEl = widget.element.findOne(".wcm-infographic__action");
 
-					if (!itemsEl) {
-						return;
-					}
+					itemsEl.setHtml("");
 
-					var newEl = new CKEDITOR.dom.element("article");
-					var newPosition = itemsEl.find(".wcm-infographic__item").count() + 1;
+					_.forEach(itemsData, function(item, index) {
+						var itemEl = new CKEDITOR.dom.element("article");
 
-					newEl.setHtml(itemTemplateContent.replace(/1/g, newPosition));
-					newEl.addClass("wcm-infographic__item");
-					newEl.addClass("wcm-infographic__item--" + newPosition);
+						itemEl.setHtml(itemTemplateContent.replace(/1/g, index + 1));
+						itemEl.addClass("wcm-infographic__item");
+						itemEl.findOne(".wcm-infographic__text").setHtml(item.content);
 
-					newEl.insertBefore(addNewButton);
+						itemsEl.append(itemEl);
+					});
 
-					generateEditables(widget);
-				};
-
-				var removeItem = function removeItem(widget, el) {
-					el.remove();
-					generateEditables(widget);
+					linkEl.setAttribute("href", linkData.url);
+					linkEl.setHtml(linkData.description);
 				};
 
 				return {
@@ -105,97 +79,47 @@
 					},
 					plugin: {
 						requires: "widget",
-						inline: true,
 						init: function(editor) {
-							CKEDITOR.dialog.add("infographic", function() {
-								return {
-									title: "Edit action link",
-									minWidth: 300,
-									minHeight: 100,
-									contents: [{
-										id: "Link",
-										elements: [{
-											id: "link",
-											type: "text",
-											label: "Link",
-											width: "200px",
-											setup: function(widget) {
-												this.setValue(widget.data.link);
-											},
-											commit: function(widget) {
-												widget.setData("link", this.getValue());
-												widget.element.findOne(".wcm-infographic__action__content").setAttribute("href", this.getValue());
-											},
-										}],
-									}],
-								};
-							});
-
-							editor.addCommand("addInfographicItem", {
-								exec: function() {
-									var selection = editor.getSelection();
-									var element = selection.getStartElement();
-									var widget = editor.widgets.getByElement(element);
-
-									addItem(widget);
-								},
-							});
-
-							if (editor.contextMenu) {
-								editor.addMenuGroup("infographicGroup");
-								editor.addMenuItem("addInfographicItem", {
-									label: "Add infographic item",
-									// icon: this.path + 'icons/abbr.png',
-									command: "addInfographicItem",
-									group: "infographicGroup",
-								});
-
-								editor.contextMenu.addListener(function(element) {
-									if (!element.hasClass("cke_widget_wrapper_wcm-infographic")) {
-										return;
-									}
-
-									return { addInfographicItem: CKEDITOR.TRISTATE_OFF };
-								});
-							}
-
 							editor.widgets.add("infographic", {
 								button: "Create a blockquote",
 								template:
 									"<div class=\"wcm-infographic\">" +
 									"<section class=\"wcm-infographic__items\">" +
-									"<article class=\"wcm-infographic__item wcm-infographic__item--1\">" +
+									"<article class=\"wcm-infographic__item\">" +
 									itemTemplateContent +
 									"</article>" +
 									"</section>" +
-									"<a href=\"#\" class=\"wcm-infographic__action\">" +
-									"<div class=\"wcm-infographic__action__content\">Lees het verslag</div>" +
-									"</a>" +
+									"<a href=\"#\" class=\"wcm-infographic__action\"></a>" +
 									"</div>",
-								// editables: editables,
 								allowedContent: allowedContent,
 								requiredContent: "div(wcm-infographic)",
-								parts: {
-									content: ".wcm-infographic__item",
-								},
-								dialog: "infographic",
 								upcast: function(el) {
 									return el.name === "div" && el.hasClass("wcm-infographic");
 								},
+								downcast: function() {
+									setElementFromData(this);
+								},
 								init: function() {
 									var widget = this;
-									var linkItem = widget.element.findOne(".wcm-infographic__action__content");
 
-									widget.setData("link", linkItem.getAttribute("href"));
+									setDataFromElement(widget);
 
-									addButtonToElement(
-										widget.element.findOne(".wcm-infographic__items"),
-										"wcm-temp-add-button",
-										null,
-										addItem.bind(null, widget)
-									);
+									widget.on("edit", function() {
+										var newData = angular.copy(this.data);
 
-									generateEditables(widget);
+										DialogService.openModal({
+											templateUrl: CKEditorInfographicAMConfig.modulePath + "templates/infographic-modal.tpl.html",
+											controller: "infographicAMModalController",
+											data: newData,
+										}).then(function() {
+											widget.setData("items", newData.items);
+											widget.setData("link", newData.link);
+
+											setElementFromData(widget);
+
+											editor.fire("change");
+										});
+									});
 								},
 							});
 
