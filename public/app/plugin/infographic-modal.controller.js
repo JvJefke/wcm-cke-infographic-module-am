@@ -5,6 +5,8 @@
 			"$scope",
 
 			function($scope) {
+                $scope.options = [{ label: "Show Link", key: "showLink" }];
+
 				$scope.addFeature = function() {
 					$scope.ngDialogData.items.push({
 						content: "",

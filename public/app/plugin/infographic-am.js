@@ -65,6 +65,12 @@
 						itemsEl.append(itemEl);
 					});
 
+                    if (linkData.showLink) {
+                        linkEl.show();
+                    } else {
+                        linkEl.hide();
+                    }
+
 					linkEl.setAttribute("href", linkData.url);
 					linkEl.setHtml(linkData.description);
 				};

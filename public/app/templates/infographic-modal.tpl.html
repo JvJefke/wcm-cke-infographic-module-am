@@ -4,7 +4,22 @@
 	</div>
 
 	<div class="wcm-infographic-modal__link">
-		<field type="'url'" name="'link'" model="ngDialogData.link" fieldData="resourceForms.itemForm" required="true" label="'URL' | translate">
+        <field
+            type="'checkbox'"
+            options="options"
+            name="'showLink'"
+            model="ngDialogData.link"
+            fieldData="resourceForms.itemForm"
+            label="'Opties' | translate">
+        </field>
+        <field
+            ng-show="ngDialogData.link.showLink"
+            type="'url'"
+            name="'link'"
+            model="ngDialogData.link"
+            fieldData="resourceForms.itemForm"
+            required="true"
+            label="'URL' | translate">
 		</field>
 	</div>
 
