@@ -1,5 +1,5 @@
 (function(angular) {
-	angular.module("cke-infographic-am_0.0.3.controllers")
+	angular.module("cke-infographic-am_0.0.4.controllers")
 		.controller("infographicAMModalController", [
 
 			"$scope",
