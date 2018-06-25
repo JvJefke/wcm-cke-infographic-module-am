@@ -1,5 +1,5 @@
 (function(angular, CKEDITOR) {
-	angular.module("cke-infographic-am_0.0.5.factories")
+	angular.module("cke-infographic-am_0.0.6.factories")
 		.factory("ckeditorInfographicAMPlugin", [
 			"$filter",
 			"CKEditorInfographicAMConfig",
@@ -68,6 +68,12 @@
 						itemsEl.append(itemEl);
 					});
 
+					if (!linkEl) {
+						linkEl = new CKEDITOR.DOM.element("a");
+						linkEl.addClass("wcm-infographic__action");
+						widget.element.append(linkEl);
+					}
+
 					if (_.get(linkData, "showLink", false)) {
 						linkEl.show();
 					} else {
@@ -94,12 +100,12 @@
 								button: "Create a blockquote",
 								template:
 									"<div class=\"wcm-infographic\">" +
-									"<section class=\"wcm-infographic__items\">" +
-									"<article class=\"wcm-infographic__item\">" +
-									itemTemplateContent +
-									"</article>" +
-									"</section>" +
-									"<a href=\"#\" class=\"wcm-infographic__action\"></a>" +
+									    "<section class=\"wcm-infographic__items\">" +
+									        "<article class=\"wcm-infographic__item\">" +
+									            itemTemplateContent +
+									        "</article>" +
+									    "</section>" +
+									    "<a href=\"#\" class=\"wcm-infographic__action\"></a>" +
 									"</div>",
 								allowedContent: allowedContent,
 								requiredContent: "div(wcm-infographic)",
