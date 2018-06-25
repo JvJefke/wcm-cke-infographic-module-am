@@ -38,12 +38,15 @@
 					}, []);
 
 					widget.setData("items", itemsData);
+
 					if (!linkItem) {
 						return;
 					}
+
 					widget.setData("link", {
 						url: linkItem.getAttribute("href"),
 						description: linkItem.getHtml(),
+						showLink: linkItem.data("showLink") === "true",
 					});
 				};
 
@@ -65,14 +68,15 @@
 						itemsEl.append(itemEl);
 					});
 
-                    if (linkData.showLink) {
-                        linkEl.show();
-                    } else {
-                        linkEl.hide();
-                    }
+					if (_.get(linkData, "showLink", false)) {
+						linkEl.show();
+					} else {
+						linkEl.hide();
+					}
 
-					linkEl.setAttribute("href", linkData.url);
-					linkEl.setHtml(linkData.description);
+					linkEl.data("showLink", _.get(linkData, "showLink", false));
+					linkEl.setAttribute("href", _.get(linkData, "url", ""));
+					linkEl.setHtml(_.get(linkData, "description", ""));
 				};
 
 				return {
