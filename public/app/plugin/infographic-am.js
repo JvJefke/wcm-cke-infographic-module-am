@@ -1,5 +1,5 @@
 (function(angular, CKEDITOR) {
-	angular.module("cke-infographic-am_0.0.6.factories")
+	angular.module("cke-infographic-am_0.0.7.factories")
 		.factory("ckeditorInfographicAMPlugin", [
 			"$filter",
 			"CKEditorInfographicAMConfig",
@@ -69,7 +69,7 @@
 					});
 
 					if (!linkEl) {
-						linkEl = new CKEDITOR.DOM.element("a");
+						linkEl = new CKEDITOR.dom.element("a");
 						linkEl.addClass("wcm-infographic__action");
 						widget.element.append(linkEl);
 					}

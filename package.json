@@ -1,6 +1,6 @@
 {
     "name": "@wcm/cke-infographic-am",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "CKEditor plugin for WCM that adds a infographic widget.",
     "main": "app",
     "scripts": {
